@@ -279,6 +279,8 @@ module.exports = function (grunt) {
         //     dist: {}
         // },
 
+
+
         // Copies remaining files to places other tasks can use
         copy: {
             dist: {
@@ -296,6 +298,16 @@ module.exports = function (grunt) {
                         'bower_components/' + (this.includeCompass ? 'sass-' : '') + 'bootstrap/' + (this.includeCompass ? 'fonts/' : 'dist/fonts/') +'*.*'
                     ]
                 }]
+            },
+            lib:{
+                expand: true,
+                dot: true,
+                cwd:  '.',
+                dest: './docs',
+                src: [
+                    'frameBudget.js',
+                    'frameBudget.min.js'
+                ]
             },
             styles: {
                 expand: true,
@@ -333,7 +345,30 @@ module.exports = function (grunt) {
                 'imagemin',
                 'svgmin'
             ]
+        },
+
+        uglify: {
+            frameJS: {
+                preserveComments: 'some',
+                files: {
+                    './frameBudget.min.js': [
+                        './frameBudget.js'
+                    ]
+                }
+            }
+        },
+    });
+
+    grunt.registerTask('publish', function (target) {
+        if (target === 'dist') {
+            return grunt.task.run(['build', 'connect:dist:keepalive']);
         }
+
+        grunt.task.run([
+            'uglify',
+            'copy:lib',
+            'gh-pages'
+        ]);
     });
 
 
