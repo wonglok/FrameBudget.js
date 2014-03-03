@@ -15,6 +15,7 @@ http://wonglok.github.io/FrameBudget.js/frameBudget.html
 
 ### Example
 http://wonglok.github.io/FrameBudget.js/example.html
+This example shows that
 
 
 ### Approach
@@ -49,6 +50,19 @@ var tmRAF = new FrameBudgetTaskManager(
 ### Add Task Option
 
 
+
+Simple
+```js
+for (var i =0 ; i< myCustomObj.data.length; i++){
+	tmRAF.addTask({
+	    ctx: myCustomObj,
+	    args: [ i ],
+	    process: myCustomObj.tinyTask,
+	});
+}
+```
+
+
 Skip trigger Add Task
 ```js
 
@@ -68,18 +82,7 @@ for (var i =0 ; i< myCustomObj.data.length; i++){
 tmRAF.digest();
 ```
 
-Simple
-```js
-for (var i =0 ; i< myCustomObj.data.length; i++){
-	tmRAF.addTask({
-	    ctx: myCustomObj,
-	    args: [ i ],
-	    process: myCustomObj.tinyTask,
-	});
-}
-```
-
-Shared Data, Functions for above ....
+Shared Data, Functions for above examples ....
 ```js
 
 function fib(n) {
