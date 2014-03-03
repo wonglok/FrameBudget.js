@@ -10,12 +10,22 @@ http://www.html5rocks.com/en/tutorials/speed/rendering/
 Sometimes user interatction events happen, you need to do work besies webgl/2dcanvas render calls, you can sometimes bust the framerate and create jank.
 
 
+### Example
+http://wonglok.github.io/FrameBudget.js/frameBudgetEg.html
+
 ### Vanilla Annotated Source - Docs
 http://wonglok.github.io/FrameBudget.js/frameBudget.html
 
-### Example
-http://wonglok.github.io/FrameBudget.js/frameBudgetEg.html
-This example shows that
+It shows:
+
+- [v] the manager is able to adapt frame budget of different device.
+
+
+
+### Heads up!!
+There is a overhead for scheduling tasks, running them within budget, limited amount of calls are avalible.
+
+People should use a renderer function, and configure as a hook.
 
 
 ### Approach
