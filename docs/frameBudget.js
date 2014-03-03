@@ -1,16 +1,18 @@
 //PolyFill
 //--------------
 /*
-    Credit: MDN (Mozilla Developer Network)
+@license
+Credit: MDN (Mozilla Developer Network)
 */
 ;if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(this===void 0||this===null)throw new TypeError;var t=Object(this);var n=t.length>>>0;if(typeof e!="function")throw new TypeError;var r=[];var i=arguments.length>=2?arguments[1]:void 0;for(var s=0;s<n;s++){if(s in t){var o=t[s];if(e.call(i,o,s,t))r.push(o)}}return r}}
 /*
-    Fill console for older browsers
-    Credit: HTML5 Boilerplat
+@license
+Fill console for older browsers
+Credit: HTML5 Boilerplat
 */
 ;(function(){var e;var t=function(){};var n=["assert","clear","count","debug","dir","dirxml","error","exception","group","groupCollapsed","groupEnd","info","log","markTimeline","profile","profileEnd","table","time","timeEnd","timeStamp","trace","warn"];var r=n.length;var i=window.console=window.console||{};while(r--){e=n[r];if(!i[e]){i[e]=t}}})()
-
 /*
+@license
 http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
 requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
@@ -26,10 +28,10 @@ MIT license
 
 //---------------------
 /*
-    Author: WONG LOK
-    Github: wonglok
-    NOTE: Experiment only.
-    License: Apache v2
+Author: WONG LOK
+Github: wonglok
+NOTE: Experiment only.
+License: Apache v2
 */
 //---------------------
 ;(function(window){
@@ -109,9 +111,11 @@ MIT license
                 return sum/array.length;
             }
 
-            //fast max min
-            //http://ejohn.org/blog/fast-javascript-maxmin/
-            //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max
+            /*!
+            fast max min
+            http://ejohn.org/blog/fast-javascript-maxmin/
+            https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max
+            !*/
             function getMaxFromArr( array ){
                 return Math.max.apply( null, array );
             }

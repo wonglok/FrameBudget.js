@@ -1,37 +1,38 @@
+/*
+@preserve
+// Author: WONG LOK
+// Github: wonglok
+// License: Apache v2
+*/
+
+/*
+@preserve
+requestAnimationFrame
+    http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+    http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+    requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
+    MIT license
+
+ArrayFilter
+    Credit: MDN (Mozilla Developer Network)
+
+Consle Polyfill:
+    HTML5 Boilerplat
+*/
+
 //PolyFill
 //--------------
-/*
-    Credit: MDN (Mozilla Developer Network)
-*/
-;if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(this===void 0||this===null)throw new TypeError;var t=Object(this);var n=t.length>>>0;if(typeof e!="function")throw new TypeError;var r=[];var i=arguments.length>=2?arguments[1]:void 0;for(var s=0;s<n;s++){if(s in t){var o=t[s];if(e.call(i,o,s,t))r.push(o)}}return r}}
-/*
-    Fill console for older browsers
-    Credit: HTML5 Boilerplat
-*/
-;(function(){var e;var t=function(){};var n=["assert","clear","count","debug","dir","dirxml","error","exception","group","groupCollapsed","groupEnd","info","log","markTimeline","profile","profileEnd","table","time","timeEnd","timeStamp","trace","warn"];var r=n.length;var i=window.console=window.console||{};while(r--){e=n[r];if(!i[e]){i[e]=t}}})()
-
-/*
-http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
-requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
-MIT license
-*/
-
-;(function(){var e=0;var t=["ms","moz","webkit","o"];for(var n=0;n<t.length&&!window.requestAnimationFrame;++n){window.requestAnimationFrame=window[t[n]+"RequestAnimationFrame"];window.cancelAnimationFrame=window[t[n]+"CancelAnimationFrame"]||window[t[n]+"CancelRequestAnimationFrame"]}if(!window.requestAnimationFrame)window.requestAnimationFrame=function(t,n){var r=(new Date).getTime();var i=Math.max(0,16-(r-e));var s=window.setTimeout(function(){t(r+i)},i);e=r+i;return s};if(!window.cancelAnimationFrame)window.cancelAnimationFrame=function(e){clearTimeout(e)}})();
+//rAF
+(function(){var e=0;var t=["ms","moz","webkit","o"];for(var n=0;n<t.length&&!window.requestAnimationFrame;++n){window.requestAnimationFrame=window[t[n]+"RequestAnimationFrame"];window.cancelAnimationFrame=window[t[n]+"CancelAnimationFrame"]||window[t[n]+"CancelRequestAnimationFrame"]}if(!window.requestAnimationFrame)window.requestAnimationFrame=function(t,n){var r=(new Date).getTime();var i=Math.max(0,16-(r-e));var s=window.setTimeout(function(){t(r+i)},i);e=r+i;return s};if(!window.cancelAnimationFrame)window.cancelAnimationFrame=function(e){clearTimeout(e)}})();
+//ArrayFilter
+if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(this===void 0||this===null)throw new TypeError;var t=Object(this);var n=t.length>>>0;if(typeof e!="function")throw new TypeError;var r=[];var i=arguments.length>=2?arguments[1]:void 0;for(var s=0;s<n;s++){if(s in t){var o=t[s];if(e.call(i,o,s,t))r.push(o)}}return r}}
+//console
+(function(){var e;var t=function(){};var n=["assert","clear","count","debug","dir","dirxml","error","exception","group","groupCollapsed","groupEnd","info","log","markTimeline","profile","profileEnd","table","time","timeEnd","timeStamp","trace","warn"];var r=n.length;var i=window.console=window.console||{};while(r--){e=n[r];if(!i[e]){i[e]=t}}})();
 
 
 //Frame Budget Task Mangaer
 //--------------
 
-
-//---------------------
-/*
-    Author: WONG LOK
-    Github: wonglok
-    NOTE: Experiment only.
-    License: Apache v2
-*/
-//---------------------
 ;(function(window){
     "use strict";
 
@@ -109,22 +110,11 @@ MIT license
                 return sum/array.length;
             }
 
-            //fast max min
-            //http://ejohn.org/blog/fast-javascript-maxmin/
-            //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max
-            function getMaxFromArr( array ){
-                return Math.max.apply( null, array );
-            }
-
-            function getMinFromArr( array ){
-                return Math.min.apply( null, array );
-            }
-
             function cutMaxMin(item,index,array){
                 return (
                     true
-                    &&  item < getMaxFromArr(array)
-                    &&  item > getMinFromArr(array)
+                    &&  item < Math.max.apply( null, array )
+                    &&  item > Math.min.apply( null, array )
                 );
             }
 

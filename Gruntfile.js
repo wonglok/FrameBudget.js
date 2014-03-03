@@ -348,8 +348,10 @@ module.exports = function (grunt) {
         },
 
         uglify: {
-            frameJS: {
+            options:{
                 preserveComments: 'some',
+            },
+            frameJS: {
                 files: {
                     './frameBudget.min.js': [
                         './frameBudget.js'
