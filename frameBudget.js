@@ -393,7 +393,7 @@ MIT license
                     USE_FRAME_BUDGET_ESTIMATOR = true;
                 }
 
-                if (typeof opt.noDebug !== 'undefined'){
+                if (typeof opt.noDebug !== 'undefined' && opt.noDebug === false){
                     DEBUG_ENABLED = false;
                 }
 
