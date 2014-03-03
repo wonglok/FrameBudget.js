@@ -381,7 +381,7 @@ module.exports = function (grunt) {
         }
 
         grunt.task.run([
-            'clean:docs'
+            'clean:docs',
             'uglify',
             'docco',
             'copy:lib',
