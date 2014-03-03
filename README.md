@@ -14,7 +14,7 @@ Sometimes user interatction events happen, you need to do work besies webgl/2dca
 http://wonglok.github.io/FrameBudget.js/frameBudget.html
 
 ### Example
-http://wonglok.github.io/FrameBudget.js/example.html
+http://wonglok.github.io/FrameBudget.js/index.html
 This example shows that
 
 
