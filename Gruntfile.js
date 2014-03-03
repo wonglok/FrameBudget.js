@@ -16,7 +16,7 @@ module.exports = function (grunt) {
     require('time-grunt')(grunt);
 
     grunt.loadNpmTasks('grunt-gh-pages');
-
+    grunt.loadNpmTasks('grunt-docco');
     // Define the configuration for all the tasks
     grunt.initConfig({
 
@@ -26,6 +26,8 @@ module.exports = function (grunt) {
             app: 'app',
             dist: 'dist'
         },
+
+
 
         'gh-pages': {
             dist:{
@@ -113,6 +115,7 @@ module.exports = function (grunt) {
 
         // Empties folders to start fresh
         clean: {
+            docs: 'docs/',
             dist: {
                 files: [{
                     dot: true,
@@ -125,6 +128,16 @@ module.exports = function (grunt) {
             },
             server: '.tmp'
         },
+
+        docco: {
+            debug: {
+                src: ['frameBudget.js'],
+                options: {
+                    output: 'docs/'
+                }
+            }
+        },
+
 
         // Make sure code styles are up to par and there are no obvious mistakes
         jshint: {
@@ -305,6 +318,7 @@ module.exports = function (grunt) {
                 cwd:  '.',
                 dest: './docs',
                 src: [
+                    'frameBudgetEg.html',
                     'frameBudget.js',
                     'frameBudget.min.js'
                 ]
@@ -367,7 +381,9 @@ module.exports = function (grunt) {
         }
 
         grunt.task.run([
+            'clean:docs'
             'uglify',
+            'docco',
             'copy:lib',
             'gh-pages'
         ]);
