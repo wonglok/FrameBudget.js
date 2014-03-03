@@ -309,12 +309,13 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
         function addTask( task ){
             TASK_STACK.push( task );
             //if wait then skip try start loop
-            if (!!task.wait){ return; }
+            if (!!task.skipAutoStart){ return; }
             triggerStartLoop();
         }
 
-        //if task.wait = true,
+        //if task.skipAutoStart = true,
         //needs to digest after scheduling
+        //renderer hook enabled mode does not need this.
         function digest(){
             if (TASK_STACK.length>0){
                 triggerStartLoop();

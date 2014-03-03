@@ -1,6 +1,6 @@
 FrameBudget.js
 ==============
-To have smooth desktop webexperince. 
+To have smooth desktop webexperince.
 
 You have about 1000/60 = 16.667ms Frame Budget.
 
@@ -9,37 +9,17 @@ http://www.html5rocks.com/en/tutorials/speed/rendering/
 
 Sometimes user interatction events happen, you need to do work besies webgl/2dcanvas render calls, you can sometimes bust the framerate and create jank.
 
-### Approach
-- [x] breakdown big compute into chunks of tasks
-- [x] run them within render loop within FRAME_BUDGET
-
-### App-Flow (Simple Mode)
-0. Config manager with Simple mode
-1. addTask method call
-2. auto trigger start rAF loop (if task is set to wait then skip the trigger)
-   @each frame
-3. module run hooked renderer if there is
-4. do {} while () the task stack within frame budget `DEFAULT_FRAME_BUDGET = 5ms`
-5. stop rAF loop if all tasks done & not using renderer hook
-
-### App-Flow (Renderer Hook Mode)
-1. Config manager with renderer hook enabled mode
-2. addTask calls
-3. System adapt all addTask calls into a waiting stack.
-4. System detect frame budget by sampling rAF time using perfomrance.now() 
-5. `Dynamic frame budget generated to adapt different mobile devices`
-6. When estimation completes, system run all scheduled addTask calls then any digest calls.
-
-7. Change mode back to simple mode after estimation with a new estimated frame budget.
-8. receive AddTask calls -> trigger startLoop .... 
-9. Same as Simple Mode....
-
 
 ### Vanilla Annotated Source - Docs
 http://wonglok.github.io/FrameBudget.js/frameBudget.html
 
 ### Example
 http://wonglok.github.io/FrameBudget.js/example.html
+
+
+### Approach
+- [x] breakdown big compute into chunks of tasks
+- [x] run them within render loop within FRAME_BUDGET
 
 
 ### Init Option
@@ -52,11 +32,11 @@ var tmRAF = new FrameBudgetTaskManager();
 tmRAF.setFrameBudget(6);
 ```
 
-*FrameBudget+Renderer Hook Mode*
+*Auto Estimate Frame Budget + Renderer Hook Mode*
 ```js
 // uses default 5ms budget
 var tmRAF = new FrameBudgetTaskManager(
-  //if set yes, then show first 100 frame (rAFindex < n) 
+  //if set yes, then show first 100 frame (rAFindex < n)
   //noDebug: true,  //optional.
   renderer: {
     fn: function render(){ console.log('draw') },
@@ -69,7 +49,6 @@ var tmRAF = new FrameBudgetTaskManager(
 ### Add Task Option
 
 
-
 Skip trigger Add Task
 ```js
 
@@ -78,12 +57,12 @@ for (var i =0 ; i< myCustomObj.data.length; i++){
       ctx: myCustomObj,
       data: i,
       process: myCustomObj.tinyTask,
-        
-        // wait: true,
-          // disable the startloop trigger 
+
+        // skipAutoStart: true,
+          // disable the startloop trigger
           // ***neeeds to call 'Digest' to run all waited tasks.
           // *** it will not wait when renderer hook is enabled.
-  
+
   });
 }
 tmRAF.digest();
@@ -145,9 +124,29 @@ for (var i =0 ; i< 30; i++){
 }
 ```
 
+### App-Flow (Simple Mode)
+0. Config manager with Simple mode
+1. addTask method call
+2. auto trigger start rAF loop (if task is set to wait then skip the trigger)
+   @each frame
+3. module run hooked renderer if there is
+4. do {} while () the task stack within frame budget `DEFAULT_FRAME_BUDGET = 5ms`
+5. stop rAF loop if all tasks done & not using renderer hook
+
+### App-Flow (Renderer Hook Mode)
+1. Config manager with renderer hook enabled mode
+2. addTask calls
+3. System adapt all addTask calls into a waiting stack.
+4. System detect frame budget by sampling rAF time using perfomrance.now()
+5. `Dynamic frame budget generated to adapt different mobile devices`
+6. When estimation completes, system run all scheduled addTask calls then any digest calls.
+
+7. Change mode back to simple mode after estimation with a new estimated frame budget.
+8. receive AddTask calls -> trigger startLoop ....
+9. Same as Simple Mode....
 
 
 
 
-ToDo:
-Rewrite into testable code when this paradigm is acutally usfeul.
+# ToDo:
+-  Rewrite into testable code when this paradigm is acutally usfeul.

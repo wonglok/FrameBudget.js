@@ -20,4 +20,10 @@ results
 
 npm-debug.log
 
+docs/*
+
 .grunt
+
+docs/frameBudget.min.js
+
+docs/frameBudget.js
