@@ -423,9 +423,10 @@ Consle Polyfill:
             }
 
             <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">calcBudgetFromStat</span><span class="hljs-params">()</span>{</span>
-                <span class="hljs-keyword">var</span> average = calcAvg(frameBudgetSamples);
 
                 frameBudgetSamples = removeError(frameBudgetSamples,FRAME_BUDGET_SAMPLE_FILTER_PASS);
+
+                <span class="hljs-keyword">var</span> average = calcAvg(frameBudgetSamples);
 
                 <span class="hljs-keyword">if</span> (DEBUG_ENABLED){
                     console.info(frameBudgetSamples);

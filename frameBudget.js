@@ -129,9 +129,10 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
             }
 
             function calcBudgetFromStat(){
-                var average = calcAvg(frameBudgetSamples);
 
                 frameBudgetSamples = removeError(frameBudgetSamples,FRAME_BUDGET_SAMPLE_FILTER_PASS);
+
+                var average = calcAvg(frameBudgetSamples);
 
                 if (DEBUG_ENABLED){
                     console.info(frameBudgetSamples);
