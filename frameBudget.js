@@ -197,12 +197,13 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
             }
             return numTskDone;
         }
-        function benchFinish(numTskDone){
+        function benchFinish(numTskDone,startTime){
             if (DEBUG_ENABLED && RAF_INDEX < debugLimit) {
                 frameEndLog['i'] = RAF_INDEX;
                 frameEndLog['frame'] = 'Ended';
                 frameEndLog['renderer'] = USE_RENDERER;
                 frameEndLog['taskDone'] = numTskDone;
+                frameEndLog['timeLapsed'] = startTime - window.performance.now();
                 console.log(frameEndLog);
             }
         }
@@ -260,7 +261,7 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
                     (window.performance.now() - frameStartTime) < FRAME_BUDGET
                 &&  TASK_STACK.length > 0
             )
-            benchFinish(benchmark);
+            benchFinish(benchmark, frameStartTime);
 
             triggerStopLoop();
 

@@ -537,12 +537,13 @@ Consle Polyfill:
             }
             <span class="hljs-keyword">return</span> numTskDone;
         }
-        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">benchFinish</span><span class="hljs-params">(numTskDone)</span>{</span>
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">benchFinish</span><span class="hljs-params">(numTskDone,startTime)</span>{</span>
             <span class="hljs-keyword">if</span> (DEBUG_ENABLED &amp;&amp; RAF_INDEX &lt; debugLimit) {
                 frameEndLog[<span class="hljs-string">'i'</span>] = RAF_INDEX;
                 frameEndLog[<span class="hljs-string">'frame'</span>] = <span class="hljs-string">'Ended'</span>;
                 frameEndLog[<span class="hljs-string">'renderer'</span>] = USE_RENDERER;
                 frameEndLog[<span class="hljs-string">'taskDone'</span>] = numTskDone;
+                frameEndLog[<span class="hljs-string">'timeLapsed'</span>] = startTime - window.performance.now();
                 console.log(frameEndLog);
             }
         }</pre></div></div>
@@ -669,7 +670,7 @@ Consle Polyfill:
                     (window.performance.now() - frameStartTime) &lt; FRAME_BUDGET
                 &amp;&amp;  TASK_STACK.length &gt; <span class="hljs-number">0</span>
             )
-            benchFinish(benchmark);
+            benchFinish(benchmark, frameStartTime);
 
             triggerStopLoop();
 
