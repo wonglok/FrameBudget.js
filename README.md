@@ -36,8 +36,10 @@ Sometimes user interatction events happen, you need to do work besies webgl/2dca
 
 
 ### Vanilla Annotated Source - Docs
-
 http://wonglok.github.io/FrameBudget.js/frameBudget.html
+
+### Example
+http://wonglok.github.io/FrameBudget.js/example.html
 
 
 ### Init Option
@@ -66,7 +68,39 @@ var tmRAF = new FrameBudgetTaskManager(
 
 ### Add Task Option
 
-Shared Data, Functions
+
+
+Skip trigger Add Task
+```js
+
+for (var i =0 ; i< myCustomObj.data.length; i++){
+  tmRAF.addTask({
+      ctx: myCustomObj,
+      data: i,
+      process: myCustomObj.tinyTask,
+        
+        // wait: true,
+          // disable the startloop trigger 
+          // ***neeeds to call 'Digest' to run all waited tasks.
+          // *** it will not wait when renderer hook is enabled.
+  
+  });
+}
+tmRAF.digest();
+```
+
+Simple
+```js
+for (var i =0 ; i< myCustomObj.data.length; i++){
+	tmRAF.addTask({
+	    ctx: myCustomObj,
+	    args: [ i ],
+	    process: myCustomObj.tinyTask,
+	});
+}
+```
+
+Shared Data, Functions for above ....
 ```js
 
 function fib(n) {
@@ -111,38 +145,8 @@ for (var i =0 ; i< 30; i++){
 }
 ```
 
-Simple Add Task
-```js
-
-for (var i =0 ; i< myCustomObj.data.length; i++){
-  tmRAF.addTask({
-      ctx: myCustomObj,
-      data: i,
-      process: myCustomObj.tinyTask,
-        
-        // wait: true,
-          // disable the startloop trigger 
-          // ***neeeds to call 'Digest' to run all waited tasks.
-          // *** it will not wait when renderer hook is enabled.
-  
-  });
-}
-tmRAF.digest();
 
 
-for (var i =0 ; i< myCustomObj.data.length; i++){
-	tmRAF.addTask({
-	    ctx: myCustomObj,
-	    args: [ i ],
-	    process: myCustomObj.tinyTask,
-	});
-}
-
-
-
-
-
-```
 
 
 ToDo:
