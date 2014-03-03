@@ -32,7 +32,25 @@
             
             <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*
 @preserve
-</span></pre></div></div>
+    Author: WONG LOK
+    Github: wonglok
+    License: Apache v2
+*/</span>
+
+<span class="hljs-comment">/*
+@preserve
+requestAnimationFrame Polyfill
+    http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+    http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+    requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
+    MIT license
+
+ArrayFilter:
+    Credit: MDN (Mozilla Developer Network)
+
+Consle Polyfill:
+    HTML5 Boilerplat
+*/</span></pre></div></div>
             
         </li>
         
@@ -43,28 +61,9 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Author: WONG LOK
-Github: wonglok
-License: Apache v2</p>
+              <h2 id="polyfill">PolyFill</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>*/
-
-/*
-@preserve
-requestAnimationFrame
-    http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-    http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
-    requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
-    MIT license
-
-ArrayFilter
-    Credit: MDN (Mozilla Developer Network)
-
-Consle Polyfill:
-    HTML5 Boilerplat
-*/</pre></div></div>
             
         </li>
         
@@ -75,9 +74,11 @@ Consle Polyfill:
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <h2 id="polyfill">PolyFill</h2>
+              <p>requstAnimationFrame</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span><span class="hljs-keyword">var</span> e=<span class="hljs-number">0</span>;<span class="hljs-keyword">var</span> t=[<span class="hljs-string">"ms"</span>,<span class="hljs-string">"moz"</span>,<span class="hljs-string">"webkit"</span>,<span class="hljs-string">"o"</span>];<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> n=<span class="hljs-number">0</span>;n&lt;t.length&amp;&amp;!window.requestAnimationFrame;++n){window.requestAnimationFrame=window[t[n]+<span class="hljs-string">"RequestAnimationFrame"</span>];window.cancelAnimationFrame=window[t[n]+<span class="hljs-string">"CancelAnimationFrame"</span>]||window[t[n]+<span class="hljs-string">"CancelRequestAnimationFrame"</span>]}<span class="hljs-keyword">if</span>(!window.requestAnimationFrame)window.requestAnimationFrame=<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(t,n)</span>{</span><span class="hljs-keyword">var</span> r=(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>).getTime();<span class="hljs-keyword">var</span> i=<span class="hljs-built_in">Math</span>.max(<span class="hljs-number">0</span>,<span class="hljs-number">16</span>-(r-e));<span class="hljs-keyword">var</span> s=window.setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>t(r+i)},i);e=r+i;<span class="hljs-keyword">return</span> s};<span class="hljs-keyword">if</span>(!window.cancelAnimationFrame)window.cancelAnimationFrame=<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span>{</span>clearTimeout(e)}})();</pre></div></div>
             
         </li>
         
@@ -88,11 +89,11 @@ Consle Polyfill:
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>rAF</p>
+              <p>ArrayFilter</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span><span class="hljs-keyword">var</span> e=<span class="hljs-number">0</span>;<span class="hljs-keyword">var</span> t=[<span class="hljs-string">"ms"</span>,<span class="hljs-string">"moz"</span>,<span class="hljs-string">"webkit"</span>,<span class="hljs-string">"o"</span>];<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> n=<span class="hljs-number">0</span>;n&lt;t.length&amp;&amp;!window.requestAnimationFrame;++n){window.requestAnimationFrame=window[t[n]+<span class="hljs-string">"RequestAnimationFrame"</span>];window.cancelAnimationFrame=window[t[n]+<span class="hljs-string">"CancelAnimationFrame"</span>]||window[t[n]+<span class="hljs-string">"CancelRequestAnimationFrame"</span>]}<span class="hljs-keyword">if</span>(!window.requestAnimationFrame)window.requestAnimationFrame=<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(t,n)</span>{</span><span class="hljs-keyword">var</span> r=(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>).getTime();<span class="hljs-keyword">var</span> i=<span class="hljs-built_in">Math</span>.max(<span class="hljs-number">0</span>,<span class="hljs-number">16</span>-(r-e));<span class="hljs-keyword">var</span> s=window.setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>t(r+i)},i);e=r+i;<span class="hljs-keyword">return</span> s};<span class="hljs-keyword">if</span>(!window.cancelAnimationFrame)window.cancelAnimationFrame=<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span>{</span>clearTimeout(e)}})();</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">if</span>(!<span class="hljs-built_in">Array</span>.prototype.filter){<span class="hljs-built_in">Array</span>.prototype.filter=<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span>{</span><span class="hljs-string">"use strict"</span>;<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>===<span class="hljs-keyword">void</span> <span class="hljs-number">0</span>||<span class="hljs-keyword">this</span>===<span class="hljs-literal">null</span>)<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>;<span class="hljs-keyword">var</span> t=<span class="hljs-built_in">Object</span>(<span class="hljs-keyword">this</span>);<span class="hljs-keyword">var</span> n=t.length&gt;&gt;&gt;<span class="hljs-number">0</span>;<span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> e!=<span class="hljs-string">"function"</span>)<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>;<span class="hljs-keyword">var</span> r=[];<span class="hljs-keyword">var</span> i=<span class="hljs-built_in">arguments</span>.length&gt;=<span class="hljs-number">2</span>?<span class="hljs-built_in">arguments</span>[<span class="hljs-number">1</span>]:<span class="hljs-keyword">void</span> <span class="hljs-number">0</span>;<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> s=<span class="hljs-number">0</span>;s&lt;n;s++){<span class="hljs-keyword">if</span>(s <span class="hljs-keyword">in</span> t){<span class="hljs-keyword">var</span> o=t[s];<span class="hljs-keyword">if</span>(e.call(i,o,s,t))r.push(o)}}<span class="hljs-keyword">return</span> r}}</pre></div></div>
             
         </li>
         
@@ -103,11 +104,11 @@ Consle Polyfill:
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>ArrayFilter</p>
+              <p>Console for older browser</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">if</span>(!<span class="hljs-built_in">Array</span>.prototype.filter){<span class="hljs-built_in">Array</span>.prototype.filter=<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span>{</span><span class="hljs-string">"use strict"</span>;<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>===<span class="hljs-keyword">void</span> <span class="hljs-number">0</span>||<span class="hljs-keyword">this</span>===<span class="hljs-literal">null</span>)<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>;<span class="hljs-keyword">var</span> t=<span class="hljs-built_in">Object</span>(<span class="hljs-keyword">this</span>);<span class="hljs-keyword">var</span> n=t.length&gt;&gt;&gt;<span class="hljs-number">0</span>;<span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> e!=<span class="hljs-string">"function"</span>)<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>;<span class="hljs-keyword">var</span> r=[];<span class="hljs-keyword">var</span> i=<span class="hljs-built_in">arguments</span>.length&gt;=<span class="hljs-number">2</span>?<span class="hljs-built_in">arguments</span>[<span class="hljs-number">1</span>]:<span class="hljs-keyword">void</span> <span class="hljs-number">0</span>;<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> s=<span class="hljs-number">0</span>;s&lt;n;s++){<span class="hljs-keyword">if</span>(s <span class="hljs-keyword">in</span> t){<span class="hljs-keyword">var</span> o=t[s];<span class="hljs-keyword">if</span>(e.call(i,o,s,t))r.push(o)}}<span class="hljs-keyword">return</span> r}}</pre></div></div>
+            <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span><span class="hljs-keyword">var</span> e;<span class="hljs-keyword">var</span> t=<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>};<span class="hljs-keyword">var</span> n=[<span class="hljs-string">"assert"</span>,<span class="hljs-string">"clear"</span>,<span class="hljs-string">"count"</span>,<span class="hljs-string">"debug"</span>,<span class="hljs-string">"dir"</span>,<span class="hljs-string">"dirxml"</span>,<span class="hljs-string">"error"</span>,<span class="hljs-string">"exception"</span>,<span class="hljs-string">"group"</span>,<span class="hljs-string">"groupCollapsed"</span>,<span class="hljs-string">"groupEnd"</span>,<span class="hljs-string">"info"</span>,<span class="hljs-string">"log"</span>,<span class="hljs-string">"markTimeline"</span>,<span class="hljs-string">"profile"</span>,<span class="hljs-string">"profileEnd"</span>,<span class="hljs-string">"table"</span>,<span class="hljs-string">"time"</span>,<span class="hljs-string">"timeEnd"</span>,<span class="hljs-string">"timeStamp"</span>,<span class="hljs-string">"trace"</span>,<span class="hljs-string">"warn"</span>];<span class="hljs-keyword">var</span> r=n.length;<span class="hljs-keyword">var</span> i=window.console=window.console||{};<span class="hljs-keyword">while</span>(r--){e=n[r];<span class="hljs-keyword">if</span>(!i[e]){i[e]=t}}})();</pre></div></div>
             
         </li>
         
@@ -118,11 +119,9 @@ Consle Polyfill:
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>console</p>
+              <hr>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span><span class="hljs-keyword">var</span> e;<span class="hljs-keyword">var</span> t=<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>};<span class="hljs-keyword">var</span> n=[<span class="hljs-string">"assert"</span>,<span class="hljs-string">"clear"</span>,<span class="hljs-string">"count"</span>,<span class="hljs-string">"debug"</span>,<span class="hljs-string">"dir"</span>,<span class="hljs-string">"dirxml"</span>,<span class="hljs-string">"error"</span>,<span class="hljs-string">"exception"</span>,<span class="hljs-string">"group"</span>,<span class="hljs-string">"groupCollapsed"</span>,<span class="hljs-string">"groupEnd"</span>,<span class="hljs-string">"info"</span>,<span class="hljs-string">"log"</span>,<span class="hljs-string">"markTimeline"</span>,<span class="hljs-string">"profile"</span>,<span class="hljs-string">"profileEnd"</span>,<span class="hljs-string">"table"</span>,<span class="hljs-string">"time"</span>,<span class="hljs-string">"timeEnd"</span>,<span class="hljs-string">"timeStamp"</span>,<span class="hljs-string">"trace"</span>,<span class="hljs-string">"warn"</span>];<span class="hljs-keyword">var</span> r=n.length;<span class="hljs-keyword">var</span> i=window.console=window.console||{};<span class="hljs-keyword">while</span>(r--){e=n[r];<span class="hljs-keyword">if</span>(!i[e]){i[e]=t}}})();</pre></div></div>
             
         </li>
         
@@ -364,7 +363,7 @@ Consle Polyfill:
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
-              <h2 id="frame-budget-estimation">Frame Budget Estimation</h2>
+              <hr>
 
             </div>
             
@@ -376,6 +375,19 @@ Consle Polyfill:
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <h2 id="frame-budget-estimation">Frame Budget Estimation</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               
             </div>
@@ -451,11 +463,11 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-23">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>start sampling when the this is being called</p>
 
@@ -468,11 +480,24 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-24">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <h2 id="benchmarking-debugging">Benchmarking &amp; Debugging</h2>
 
@@ -481,11 +506,11 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-25">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               
             </div>
@@ -524,11 +549,24 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-26">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <h2 id="process-tasks">Process Tasks</h2>
 
@@ -537,11 +575,11 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-27">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               
             </div>
@@ -574,11 +612,24 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-28">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
               <h2 id="loop-control-flow">Loop Control Flow</h2>
 
@@ -587,11 +638,11 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-29">
+        <li id="section-33">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
               
             </div>
@@ -626,11 +677,24 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-30">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
               </div>
               <h2 id="loop">Loop</h2>
 
@@ -639,11 +703,11 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-31">
+        <li id="section-36">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
+                <a class="pilcrow" href="#section-36">&#182;</a>
               </div>
               
             </div>
@@ -670,11 +734,11 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-32">
+        <li id="section-37">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-37">&#182;</a>
               </div>
               <p><code>cancelAnimationFrame</code> break the loop</p>
 
@@ -689,11 +753,24 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-33">
+        <li id="section-38">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-33">&#182;</a>
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
               </div>
               <h2 id="loop-trigger">Loop Trigger</h2>
 
@@ -702,11 +779,11 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-34">
+        <li id="section-40">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-34">&#182;</a>
+                <a class="pilcrow" href="#section-40">&#182;</a>
               </div>
               
             </div>
@@ -729,11 +806,24 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-35">
+        <li id="section-41">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-35">&#182;</a>
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
               </div>
               <h2 id="task-scheduler">Task scheduler</h2>
 
@@ -742,11 +832,11 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-36">
+        <li id="section-43">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-36">&#182;</a>
+                <a class="pilcrow" href="#section-43">&#182;</a>
               </div>
               
             </div>
@@ -757,11 +847,11 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-37">
+        <li id="section-44">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-37">&#182;</a>
+                <a class="pilcrow" href="#section-44">&#182;</a>
               </div>
               <p>if wait then skip try start loop</p>
 
@@ -774,11 +864,11 @@ Consle Polyfill:
         </li>
         
         
-        <li id="section-38">
+        <li id="section-45">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-38">&#182;</a>
+                <a class="pilcrow" href="#section-45">&#182;</a>
               </div>
               <p>if task.skipAutoStart = true,
 needs to digest after scheduling
@@ -795,11 +885,24 @@ renderer hook enabled mode does not need this.</p>
         </li>
         
         
-        <li id="section-39">
+        <li id="section-46">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-39">&#182;</a>
+                <a class="pilcrow" href="#section-46">&#182;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-47">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-47">&#182;</a>
               </div>
               <h2 id="set-renderer-function">Set Renderer function</h2>
 
@@ -808,11 +911,11 @@ renderer hook enabled mode does not need this.</p>
         </li>
         
         
-        <li id="section-40">
+        <li id="section-48">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-40">&#182;</a>
+                <a class="pilcrow" href="#section-48">&#182;</a>
               </div>
               
             </div>
@@ -835,11 +938,24 @@ renderer hook enabled mode does not need this.</p>
         </li>
         
         
-        <li id="section-41">
+        <li id="section-49">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-41">&#182;</a>
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
               </div>
               <h2 id="delayed-init-adpaters">Delayed init adpaters</h2>
 
@@ -848,11 +964,11 @@ renderer hook enabled mode does not need this.</p>
         </li>
         
         
-        <li id="section-42">
+        <li id="section-51">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-42">&#182;</a>
+                <a class="pilcrow" href="#section-51">&#182;</a>
               </div>
               
             </div>
@@ -890,11 +1006,24 @@ renderer hook enabled mode does not need this.</p>
         </li>
         
         
-        <li id="section-43">
+        <li id="section-52">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-43">&#182;</a>
+                <a class="pilcrow" href="#section-52">&#182;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-53">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-53">&#182;</a>
               </div>
               <h2 id="configure-init">Configure init</h2>
 
@@ -903,11 +1032,11 @@ renderer hook enabled mode does not need this.</p>
         </li>
         
         
-        <li id="section-44">
+        <li id="section-54">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-44">&#182;</a>
+                <a class="pilcrow" href="#section-54">&#182;</a>
               </div>
               
             </div>
@@ -939,11 +1068,11 @@ renderer hook enabled mode does not need this.</p>
         </li>
         
         
-        <li id="section-45">
+        <li id="section-55">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-45">&#182;</a>
+                <a class="pilcrow" href="#section-55">&#182;</a>
               </div>
               <p>augment constructor argument into init func</p>
 
@@ -954,11 +1083,11 @@ renderer hook enabled mode does not need this.</p>
         </li>
         
         
-        <li id="section-46">
+        <li id="section-56">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-46">&#182;</a>
+                <a class="pilcrow" href="#section-56">&#182;</a>
               </div>
               <p>declare public api</p>
 
@@ -969,160 +1098,9 @@ renderer hook enabled mode does not need this.</p>
         self.digest = digestCallReceiver;
 
         self.toggleDebug = toggleDebug;
-        self.setFrameBudget = setFrameBudget;</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-47">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-47">&#182;</a>
-              </div>
-              <p>return the reference of this object</p>
+        self.setFrameBudget = setFrameBudget;
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
-    }
-
-    window.FrameBudgetTaskManager = FrameBudgetMGR;
-})(<span class="hljs-keyword">this</span>);</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-48">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-48">&#182;</a>
-              </div>
-              <h2 id="usage">Usage</h2>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-49">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-49">&#182;</a>
-              </div>
-              
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-50">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-50">&#182;</a>
-              </div>
-              <p>not a part of library,</p>
-<p>just for showing how to use this library</p>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-51">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-51">&#182;</a>
-              </div>
-              <hr>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-52">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-52">&#182;</a>
-              </div>
-              <pre><code>        <span class="hljs-comment">// use case 1</span>
-        <span class="hljs-comment">// uses default 5ms budget</span>
-        tmRAF = <span class="hljs-keyword">new</span> tmRAF();
-</code></pre>
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-53">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-53">&#182;</a>
-              </div>
-              <hr>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-54">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-54">&#182;</a>
-              </div>
-              <pre><code>        <span class="hljs-comment">// use case 2</span>
-        <span class="hljs-comment">// specify budget wtih 2ms</span>
-        tmRAF = <span class="hljs-keyword">new</span> tmRAF();
-        tmRAF.setFrameBudget(<span class="hljs-number">10</span>);
-</code></pre>
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-55">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-55">&#182;</a>
-              </div>
-              <hr>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-56">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-56">&#182;</a>
-              </div>
-              <pre><code>        <span class="hljs-comment">// use case 3</span>
-        <span class="hljs-comment">// manager will estimate frame then use the renderer</span>
-        <span class="hljs-comment">// let the frame budget manager handle</span>
-        <span class="hljs-comment">// your renderer and async task</span>
-        tmRAF = <span class="hljs-keyword">new</span> tmRAF({
-            <span class="hljs-comment">//you dont need to specify frame budget</span>
-            <span class="hljs-comment">//because the estimator will handle it.</span>
-            renderer: {
-                fn: render,
-                <span class="hljs-comment">// ctx: renderCtx, //optinal</span>
-                <span class="hljs-comment">//args: [] //optional</span>
-            }
-        });
-</code></pre>
-            </div>
+        self.stopLoop = stopLoop;</pre></div></div>
             
         </li>
         
@@ -1133,212 +1111,15 @@ renderer hook enabled mode does not need this.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-57">&#182;</a>
               </div>
-              <hr>
+              <p>return the reference of this object</p>
 
             </div>
             
-        </li>
-        
-        
-        <li id="section-58">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-58">&#182;</a>
-              </div>
-              <pre><code>        <span class="hljs-comment">// use case 4</span>
-        <span class="hljs-comment">// no debug</span>
-        tmRAF = <span class="hljs-keyword">new</span> tmRAF({
-            noDebug: <span class="hljs-literal">true</span>,
-            renderer: {
-                fn: render,
-                <span class="hljs-comment">// ctx: renderCtx, //optinal</span>
-                <span class="hljs-comment">//args: [] //optional</span>
-            }
-        });
-</code></pre>
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-59">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-59">&#182;</a>
-              </div>
-              <hr>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-60">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-60">&#182;</a>
-              </div>
-              <pre><code>        <span class="hljs-comment">// use case 5</span>
-        <span class="hljs-comment">// no debug during run time.</span>
-        tmRAF = <span class="hljs-keyword">new</span> tmRAF({
-            renderer: {
-                fn: render,
-                <span class="hljs-comment">// ctx: renderCtx, //optinal</span>
-                <span class="hljs-comment">//args: [] //optional</span>
-            }
-        });
-        tmRAF.toggleDebug();
-        <span class="hljs-comment">//heavy computing function. dont apply n above 40.</span>
-        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fib</span><span class="hljs-params">(n)</span> {</span>
-        <span class="hljs-keyword">return</span> n &lt; <span class="hljs-number">2</span> ? <span class="hljs-number">1</span> : fib(n - <span class="hljs-number">1</span>) + fib(n - <span class="hljs-number">2</span>);
-        }
-</code></pre>
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-61">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-61">&#182;</a>
-              </div>
-              <hr>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-62">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-62">&#182;</a>
-              </div>
-              <pre><code>        <span class="hljs-keyword">var</span> myCustomObj = {
-            data: [],
-            before: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
-            },
-            tinyTask: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(i)</span>{</span>
-                <span class="hljs-keyword">this</span>.before();
-                <span class="hljs-keyword">var</span> val = <span class="hljs-keyword">this</span>.data[i];
-                <span class="hljs-keyword">var</span> result = fib(val);
-                <span class="hljs-comment">//console.log(result);</span>
-                <span class="hljs-keyword">this</span>.bucket[i] = result;
-                <span class="hljs-keyword">this</span>.finish();
-            },
-            finish: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
-                <span class="hljs-comment">//check end</span>
-                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.bucket.length === <span class="hljs-keyword">this</span>.data.length){
-                    <span class="hljs-keyword">this</span>.callback();
-                }<span class="hljs-keyword">else</span>{
-                    console.log(<span class="hljs-keyword">this</span>.data.length - <span class="hljs-keyword">this</span>.bucket.length);
-                }
-            },
-            bucket: [],
-            callback: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
-                console.log(<span class="hljs-keyword">this</span>);
-            },
-        };
-        <span class="hljs-comment">//populate data</span>
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i =<span class="hljs-number">0</span> ; i&lt; <span class="hljs-number">30</span>; i++){
-            myCustomObj.data[i] = <span class="hljs-number">30</span>-i;
-        }
-</code></pre>
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-63">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-63">&#182;</a>
-              </div>
-              <hr>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-64">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-64">&#182;</a>
-              </div>
-              <pre><code>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">taskAdder</span><span class="hljs-params">(i, useCase)</span>{</span>
-        <span class="hljs-keyword">if</span> (useCase === <span class="hljs-number">1</span>){
-            requestAnimationFrame(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
-                tmRAF.addTask({
-                    ctx: myCustomObj,
-                    data: i,
-                    process: myCustomObj.tinyTask,
-                    <span class="hljs-comment">// wait: true,</span>
-                        <span class="hljs-comment">// enable order of task adding</span>
-                        <span class="hljs-comment">// p.s. neeeds to call 'Digest' to run all waited tasks.</span>
-                        <span class="hljs-comment">// cannot use</span>
-                });
-            });
-        }
-        <span class="hljs-keyword">if</span> (useCase === <span class="hljs-number">2</span>){
-            tmRAF.addTask({
-                ctx: myCustomObj,
-                args: [ i ],
-                process: myCustomObj.tinyTask,
-            });
-        }
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
     }
-</code></pre>
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-65">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-65">&#182;</a>
-              </div>
-              <pre><code>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i =<span class="hljs-number">0</span> ; i&lt; myCustomObj.data.length; i++){
-        taskAdder(i,<span class="hljs-number">1</span>);
-    }
-    tmRAF.digest();
-</code></pre>
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-66">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-66">&#182;</a>
-              </div>
-              <hr>
 
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-67">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-67">&#182;</a>
-              </div>
-              
-            </div>
+    window.FrameBudgetTaskManager = FrameBudgetMGR;
+})(<span class="hljs-keyword">this</span>);</pre></div></div>
             
         </li>
         
