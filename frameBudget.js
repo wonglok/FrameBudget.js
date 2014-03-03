@@ -331,7 +331,6 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
             }
         }
 
-
         //--------------
         //Set Renderer function
         //--------------
