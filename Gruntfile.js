@@ -47,6 +47,13 @@ module.exports = function (grunt) {
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {
+            lib: {
+                files: ['frameBudget.js','frameBudgetEg.html'],
+                tasks: ['libBuild'],
+                options: {
+                    livereload: true
+                }
+            },
             js: {
                 files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
                 tasks: ['jshint'],
@@ -90,7 +97,8 @@ module.exports = function (grunt) {
                     open: true,
                     base: [
                         '.tmp',
-                        '<%= yeoman.app %>'
+                    //    '<%= yeoman.app %>'
+                        './docs'
                     ]
                 }
             },
@@ -375,16 +383,20 @@ module.exports = function (grunt) {
         },
     });
 
-    grunt.registerTask('publish', function (target) {
-        if (target === 'dist') {
-            return grunt.task.run(['build', 'connect:dist:keepalive']);
-        }
+    grunt.registerTask('libBuild', function (target) {
 
         grunt.task.run([
             'clean:docs',
             'uglify',
             'docco',
             'copy:lib',
+        ]);
+    });
+
+    grunt.registerTask('publish', function (target) {
+
+        grunt.task.run([
+            'libBuild',
             'gh-pages'
         ]);
     });
