@@ -66,7 +66,7 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
             //each time `2` `FRAME_BUDGET_SAMPLE_AMOUNT` will be used to get rid of th max, and min error val
             FRAME_BUDGET_SAMPLE_FILTER_PASS = 2,
             //`FRAME_BUDGET_TIGHTEN_FACTOR`is only valid  when using estimator
-            FRAME_BUDGET_TIGHTEN_FACTOR = 1/5,
+            FRAME_BUDGET_TIGHTEN_FACTOR = 0.75,
 
             //`LOOP_IS_READY` will become true after the budget estimation.
             LOOP_IS_READY = false,
