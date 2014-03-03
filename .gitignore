@@ -19,3 +19,5 @@ logs
 results
 
 npm-debug.log
+
+.grunt
