@@ -454,7 +454,7 @@ Consle Polyfill:
                 FRAME_BUDGET = frameBudget*FRAME_BUDGET_TIGHTEN_FACTOR;
 
                 <span class="hljs-keyword">if</span> (DEBUG_ENABLED){
-                    console.debug(FRAME_BUDGET);
+                    console.debug({frameBudget: frameBudget, afterCalc: FRAME_BUDGET});
                 }
 
                 finishAllCalls();

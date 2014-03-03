@@ -160,7 +160,7 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
                 FRAME_BUDGET = frameBudget*FRAME_BUDGET_TIGHTEN_FACTOR;
 
                 if (DEBUG_ENABLED){
-                    console.debug(FRAME_BUDGET);
+                    console.debug({frameBudget: frameBudget, afterCalc: FRAME_BUDGET});
                 }
 
                 finishAllCalls();
