@@ -259,8 +259,7 @@ Consle Polyfill:
             </div>
             
             <div class="content"><div class='highlight'><pre>            FRAME_BUDGET_DEFAULT = <span class="hljs-number">5</span>,
-            FRAME_BUDGET = <span class="hljs-built_in">parseInt</span>(FRAME_BUDGET_DEFAULT,<span class="hljs-number">10</span>),
-            FRAME_BUDGET_SAMPLE_AMOUNT = <span class="hljs-number">15</span>,</pre></div></div>
+            FRAME_BUDGET = <span class="hljs-built_in">parseInt</span>(FRAME_BUDGET_DEFAULT,<span class="hljs-number">10</span>),</pre></div></div>
             
         </li>
         
@@ -275,7 +274,8 @@ Consle Polyfill:
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            FRAME_BUDGET_SAMPLE_FILTER_PASS = <span class="hljs-number">2</span>,</pre></div></div>
+            <div class="content"><div class='highlight'><pre>            FRAME_BUDGET_SAMPLE_FILTER_PASS = <span class="hljs-number">2</span>,
+            FRAME_BUDGET_SAMPLE_AMOUNT = <span class="hljs-number">5</span> + FRAME_BUDGET_SAMPLE_FILTER_PASS*<span class="hljs-number">2</span>,</pre></div></div>
             
         </li>
         
@@ -290,7 +290,7 @@ Consle Polyfill:
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            FRAME_BUDGET_TIGHTEN_FACTOR = <span class="hljs-number">0.75</span>,</pre></div></div>
+            <div class="content"><div class='highlight'><pre>            FRAME_BUDGET_TIGHTEN_FACTOR = <span class="hljs-number">0.8</span>,</pre></div></div>
             
         </li>
         
@@ -526,7 +526,7 @@ Consle Polyfill:
             <span class="hljs-keyword">if</span> (DEBUG_ENABLED &amp;&amp; RAF_INDEX &lt; debugLimit){
                 frameStartLog[<span class="hljs-string">'i'</span>] = RAF_INDEX;
                 frameStartLog[<span class="hljs-string">'frame'</span>] = <span class="hljs-string">'Start'</span>;
-                frameStartLog[<span class="hljs-string">'budget'</span>] = FRAME_BUDGET;
+                frameStartLog[<span class="hljs-string">'renderer'</span>] = USE_RENDERER;
                 console.log(frameStartLog);
             }
             <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
@@ -537,13 +537,13 @@ Consle Polyfill:
             }
             <span class="hljs-keyword">return</span> numTskDone;
         }
-        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">benchFinish</span><span class="hljs-params">(numTskDone,startTime)</span>{</span>
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">benchFinish</span><span class="hljs-params">(numTskDone,startTime,endTime)</span>{</span>
             <span class="hljs-keyword">if</span> (DEBUG_ENABLED &amp;&amp; RAF_INDEX &lt; debugLimit) {
                 frameEndLog[<span class="hljs-string">'i'</span>] = RAF_INDEX;
                 frameEndLog[<span class="hljs-string">'frame'</span>] = <span class="hljs-string">'Ended'</span>;
-                frameEndLog[<span class="hljs-string">'renderer'</span>] = USE_RENDERER;
                 frameEndLog[<span class="hljs-string">'taskDone'</span>] = numTskDone;
-                frameEndLog[<span class="hljs-string">'timeLapsed'</span>] = startTime - window.performance.now();
+                frameEndLog[<span class="hljs-string">'budget'</span>] = FRAME_BUDGET.toFixed(<span class="hljs-number">2</span>);
+                frameEndLog[<span class="hljs-string">'used'</span>] = (endTime - startTime).toFixed(<span class="hljs-number">2</span>);
                 console.log(frameEndLog);
             }
         }</pre></div></div>
@@ -651,6 +651,7 @@ Consle Polyfill:
             
             <div class="content"><div class='highlight'><pre>        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stepper</span><span class="hljs-params">()</span>{</span>
             <span class="hljs-keyword">var</span> frameStartTime = window.performance.now(),
+                frameEndTime,
                 benchmark = benchInit(),
                 task,
                 isTask;
@@ -670,7 +671,8 @@ Consle Polyfill:
                     (window.performance.now() - frameStartTime) &lt; FRAME_BUDGET
                 &amp;&amp;  TASK_STACK.length &gt; <span class="hljs-number">0</span>
             )
-            benchFinish(benchmark, frameStartTime);
+
+            benchFinish(benchmark, frameStartTime, window.performance.now());
 
             triggerStopLoop();
 

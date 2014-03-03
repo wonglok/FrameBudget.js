@@ -62,11 +62,11 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
             //`FRAME_BUDGET` will be overwritten by budget estimator
             FRAME_BUDGET_DEFAULT = 5,
             FRAME_BUDGET = parseInt(FRAME_BUDGET_DEFAULT,10),
-            FRAME_BUDGET_SAMPLE_AMOUNT = 15,
             //each time `2` `FRAME_BUDGET_SAMPLE_AMOUNT` will be used to get rid of th max, and min error val
             FRAME_BUDGET_SAMPLE_FILTER_PASS = 2,
+            FRAME_BUDGET_SAMPLE_AMOUNT = 5 + FRAME_BUDGET_SAMPLE_FILTER_PASS*2,
             //`FRAME_BUDGET_TIGHTEN_FACTOR`is only valid  when using estimator
-            FRAME_BUDGET_TIGHTEN_FACTOR = 0.75,
+            FRAME_BUDGET_TIGHTEN_FACTOR = 0.8,
 
             //`LOOP_IS_READY` will become true after the budget estimation.
             LOOP_IS_READY = false,
@@ -186,7 +186,7 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
             if (DEBUG_ENABLED && RAF_INDEX < debugLimit){
                 frameStartLog['i'] = RAF_INDEX;
                 frameStartLog['frame'] = 'Start';
-                frameStartLog['budget'] = FRAME_BUDGET;
+                frameStartLog['renderer'] = USE_RENDERER;
                 console.log(frameStartLog);
             }
             return 0;
@@ -197,13 +197,13 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
             }
             return numTskDone;
         }
-        function benchFinish(numTskDone,startTime){
+        function benchFinish(numTskDone,startTime,endTime){
             if (DEBUG_ENABLED && RAF_INDEX < debugLimit) {
                 frameEndLog['i'] = RAF_INDEX;
                 frameEndLog['frame'] = 'Ended';
-                frameEndLog['renderer'] = USE_RENDERER;
                 frameEndLog['taskDone'] = numTskDone;
-                frameEndLog['timeLapsed'] = startTime - window.performance.now();
+                frameEndLog['budget'] = FRAME_BUDGET.toFixed(2);
+                frameEndLog['used'] = (endTime - startTime).toFixed(2);
                 console.log(frameEndLog);
             }
         }
@@ -242,6 +242,7 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
         //--------------
         function stepper(){
             var frameStartTime = window.performance.now(),
+                frameEndTime,
                 benchmark = benchInit(),
                 task,
                 isTask;
@@ -261,7 +262,8 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
                     (window.performance.now() - frameStartTime) < FRAME_BUDGET
                 &&  TASK_STACK.length > 0
             )
-            benchFinish(benchmark, frameStartTime);
+
+            benchFinish(benchmark, frameStartTime, window.performance.now());
 
             triggerStopLoop();
 
