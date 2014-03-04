@@ -96,7 +96,7 @@ module.exports = function (grunt) {
                 options: {
                     open: true,
                     base: [
-                        '.tmp',
+                    //    '.tmp',
                     //    '<%= yeoman.app %>'
                         './docs'
                     ]
@@ -366,6 +366,10 @@ module.exports = function (grunt) {
                 'copy:styles',
                 'imagemin',
                 'svgmin'
+            ],
+            lib:[
+                // 'connect:livereload',
+                // 'watch:lib'
             ]
         },
 
@@ -384,7 +388,6 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('libBuild', function (target) {
-
         grunt.task.run([
             'clean:docs',
             'uglify',
@@ -394,7 +397,6 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('publish', function (target) {
-
         grunt.task.run([
             'libBuild',
             'gh-pages'
@@ -408,6 +410,7 @@ module.exports = function (grunt) {
         }
 
         grunt.task.run([
+            'libBuild',
             'clean:server',
             'concurrent:server',
             'autoprefixer',

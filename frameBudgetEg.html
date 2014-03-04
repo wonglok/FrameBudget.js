@@ -12,7 +12,7 @@
 
 		var renderCtx = this;
 		function render(){
-			console.log('darw frame');
+			// console.log('darw frame');
 		}
 
 		var tmRAF = FrameBudgetTaskManager;
@@ -76,7 +76,7 @@
 
 
 		}
-		myUseCase(1);
+		myUseCase(3);
 
 
 		function fib(n) {
@@ -114,10 +114,10 @@
 		};
 
 		//populate data
-		for (var i =0 ; i< 50; i++){
-		    myCustomObj.data[i] = Math.random()*10*2.5;
+		var max = 28;
+	    for (var item = 0 ; item< 50; item++){
+	    	myCustomObj.data[item] = (item < max) ? item : max;
 		}
-		myCustomObj
 
 		function taskAdder(i, useCase){
 			if (useCase === 1){
@@ -128,7 +128,6 @@
 			            process: myCustomObj.tinyTask,
 			        });
 			    });
-
 			}
 
 			if (useCase === 2){

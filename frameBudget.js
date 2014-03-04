@@ -36,7 +36,9 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
 ;(function(window){
     "use strict";
 
-    function FrameBudgetMGR(){
+
+
+    function FrameBudgetManager(){
         var self = this,
             IS_STRICT_MODE = (function() { return !this; })(),
 
@@ -61,21 +63,22 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
             USE_FRAME_BUDGET_ESTIMATOR = false,
             //`FRAME_BUDGET` will be overwritten by budget estimator
             FRAME_BUDGET_DEFAULT = 5,
-            FRAME_BUDGET = parseInt(FRAME_BUDGET_DEFAULT,10),
+            FRAME_BUDGET = FRAME_BUDGET_DEFAULT,
             //each time `2` `FRAME_BUDGET_SAMPLE_AMOUNT` will be used to get rid of th max, and min error val
-            FRAME_BUDGET_SAMPLE_FILTER_PASS = 2,
+            FRAME_BUDGET_SAMPLE_FILTER_PASS = 5,
             FRAME_BUDGET_SAMPLE_AMOUNT = 5 + FRAME_BUDGET_SAMPLE_FILTER_PASS*2,
             //`FRAME_BUDGET_TIGHTEN_FACTOR`is only valid  when using estimator
-            FRAME_BUDGET_TIGHTEN_FACTOR = 0.8,
+            FRAME_BUDGET_TIGHTEN_FACTOR = 0.75,
 
             //`LOOP_IS_READY` will become true after the budget estimation.
             LOOP_IS_READY = false,
             //`PRE_INIT_CALL_STACK` stores premature calls to the module. and fire it after budget estimation.
             PRE_INIT_CALL_STACK = {
-                addTask: null,
-                digest: null,
+                addTaskAdv: [],
+                addTask: [],
+                digest: [],
             },
-
+            LOOP_BENCHER,
             DEBUG_ENABLED = true;
 
 
@@ -98,10 +101,10 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
         //--------------
         //Frame Budget Estimation
         //--------------
-        function estimateFrameBudget(){
+        function autoDetectFrameBudget(){
             var start,
                 end,
-                frameBudgetSamples = [],//Statistics Samples
+                samples = [],//Statistics Samples
                 estimatedResult;
 
             function calcAvg(array){
@@ -120,40 +123,40 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
                 );
             }
 
-            function removeError(sampleData,pass){
+            function removeError(sample,pass){
                 for (var i =0 ; i <= pass; i++){
-                    sampleData = sampleData.filter(cutMaxMin);
+                    sample = sample.filter(cutMaxMin);
                 }
-
-                return sampleData;
+                return sample;
             }
 
             function calcBudgetFromStat(){
+                var cleanSample = removeError(samples,FRAME_BUDGET_SAMPLE_FILTER_PASS);
 
-                frameBudgetSamples = removeError(frameBudgetSamples,FRAME_BUDGET_SAMPLE_FILTER_PASS);
-
-                var average = calcAvg(frameBudgetSamples);
+                var average = calcAvg(cleanSample);
 
                 if (DEBUG_ENABLED){
-                    console.info(frameBudgetSamples);
+                    console.info(cleanSample,samples);
                 }
 
                 return average;
             }
 
+            function takeSingleFrameBudgetSample(){
+                samples.push(window.performance.now() - start);
+                //take more if not enough
+                if (samples.length <= FRAME_BUDGET_SAMPLE_AMOUNT){
+                    requestAnimationFrame(takeSamples);
+                }else{
+                    //take enough, then finish.
+                    var frameBudget = calcBudgetFromStat();
+                    finishEstimation(frameBudget);
+                }
+            }
 
-            function takeFrameBudgetSamples(){
+            function takeSamples(){
                 start = window.performance.now();
-                requestAnimationFrame(function(){
-                    end = window.performance.now();
-                    frameBudgetSamples.push(end-start);
-                    if (frameBudgetSamples.length <= FRAME_BUDGET_SAMPLE_AMOUNT){
-                        requestAnimationFrame(takeFrameBudgetSamples);
-                    }else{
-                        var frameBudget = calcBudgetFromStat();
-                        finishEstimation(frameBudget);
-                    }
-                });
+                requestAnimationFrame(takeSingleFrameBudgetSample);
             }
 
             function finishEstimation(frameBudget){
@@ -164,11 +167,11 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
                     console.debug({frameBudget: frameBudget, afterCalc: FRAME_BUDGET});
                 }
 
-                finishAllCalls();
+                processCallStack();
             }
 
             //start sampling when the this is being called
-            takeFrameBudgetSamples();
+            takeSamples();
 
         }
 
@@ -179,101 +182,94 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
         function toggleDebug(){
             DEBUG.ENABLED = !DEBUG.ENABLED;
         }
-        var frameStartLog = {
-            i:null,
-            frame:null,
-            renderer: null
-        };
-        var frameEndLog = {
-            i:null,
-            frame: null,
-            taskDone: null,
-            budget: null,
-            used: null
-        };
-        var debugLimit = 100;
-        function benchInit(){
-            if (DEBUG_ENABLED && RAF_INDEX < debugLimit){
-                frameStartLog['i'] = RAF_INDEX;
-                frameStartLog['frame'] = 'Start';
-                frameStartLog['renderer'] = USE_RENDERER;
-                console.log(frameStartLog);
-            }
-            return 0;
-        }
-        function benchLoop(numTskDone){
-            if (DEBUG_ENABLED){
-                numTskDone++;
-            }
-            return numTskDone;
-        }
-        function benchFinish(numTskDone,startTime,endTime){
-            if (DEBUG_ENABLED && RAF_INDEX < debugLimit) {
-                frameEndLog['i'] = RAF_INDEX;
-                frameEndLog['frame'] = 'Ended';
-                frameEndLog['taskDone'] = numTskDone;
-                frameEndLog['budget'] = FRAME_BUDGET.toFixed(2);
-                frameEndLog['used'] = (endTime - startTime).toFixed(2);
-                console.log(frameEndLog);
-            }
-        }
+        function stepperBenchMarkHelper(){
+            var limit = 100;
+            var enabled;
+            var frameStartTime;
+            var taskDoneCount;
+            var benchStartTime;
+            function _benchFrameStart(startTime){
+                //setup
+                enabled = (DEBUG_ENABLED && RAF_INDEX < limit);
 
-        //--------------
-        //Process Tasks
-        //--------------
-        function getTask(){
-            return TASK_STACK.shift();
-        }
-
-        function checkIsTask(task){
-            return (
-                   typeof task !== 'undefined'
-                && typeof task.process === 'function'
-            );
-        }
-
-        function applyTaskFn(task){
-            if (typeof task.args !== 'undefined'){
-                task.process.apply(
-                    task.ctx,
-                    task.args
-                )
-            }else{
-                task.process.call(
-                    task.ctx,
-                    task.data
-                );
+                if (enabled) {
+                    taskDoneCount = 0;
+                    frameStartTime = startTime;//window.performance.now();
+                    console.log(
+                        RAF_INDEX,
+                        'Start',
+                        'Renderer', USE_RENDERER
+                    );
+                }
             }
+            function _benchTaskDoneUpdate(){
+                if (enabled) {
+                    taskDoneCount++;
+                }
+            }
+            function _benchFrameEnd(){
+                if (enabled) {
+                    console.log(
+                        RAF_INDEX,
+                        'Ended',
+                        'taskDone', taskDoneCount,
+                        'budget', FRAME_BUDGET.toFixed(2),
+                        'used', (window.performance.now() - frameStartTime).toFixed(2)
+                    );
+                }
+            }
+            return {
+                frameStart : _benchFrameStart,
+                frameEnd : _benchFrameEnd,
+                taskDoneUpdate : _benchTaskDoneUpdate
+            };
         }
+        LOOP_BENCHER = stepperBenchMarkHelper();
 
 
         //--------------
         //Loop Control Flow
         //--------------
         function stepper(){
-            var frameStartTime = window.performance.now(),
-                frameEndTime,
-                benchmark = benchInit(),
-                task,
-                isTask;
+            var stepperFrameStartTime = window.performance.now();
+
+            LOOP_BENCHER.frameStart(stepperFrameStartTime);
 
             if (USE_RENDERER){
                 RENDERER.fn.apply(RENDERER.ctx,RENDERER.args);
             }
 
             do {
-                task = getTask(),
-                isTask = checkIsTask(task);
-                if (isTask) {
-                    applyTaskFn(task);
-                    benchmark = benchLoop(benchmark);
+                //get todo
+                var todo = TASK_STACK.shift();
+
+                //check isTask
+                if (
+                    typeof todo !== 'undefined'
+                    && typeof todo.process === 'function'
+                ) {
+
+                    if (typeof todo.args !== 'undefined'){
+                        todo.process.apply(
+                            todo.ctx,
+                            todo.args
+                        )
+                    }else{
+                        todo.process.call(
+                            todo.ctx,
+                            todo.data
+                        );
+                    }
+
+                    LOOP_BENCHER.taskDoneUpdate();
                 }
+
             } while (
-                    (window.performance.now() - frameStartTime) < FRAME_BUDGET
+                    (window.performance.now() - stepperFrameStartTime) < FRAME_BUDGET
                 &&  TASK_STACK.length > 0
             )
 
-            benchFinish(benchmark, frameStartTime, window.performance.now());
+            LOOP_BENCHER.frameEnd();
 
             triggerStopLoop();
 
@@ -282,17 +278,14 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
         //--------------
         //Loop
         //--------------
-        function requestFrame(frameFn){
-            RAF_INDEX = requestAnimationFrame(frameFn);
-        }
 
         function loop(){
-            requestFrame(loop);
+            RAF_INDEX = requestAnimationFrame(loop);
             stepper();
         }
 
         function startLoop(){
-            requestFrame(loop);
+            RAF_INDEX = requestAnimationFrame(loop);
             if (DEBUG_ENABLED){
                 console.info('~~RAF Loop Started');
             }
@@ -328,8 +321,11 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
         //--------------
         //Task scheduler
         //--------------
-        function addTask( task ){
+        function addTaskAdv( task ){
             TASK_STACK.push( task );
+        }
+        function addTask( task ){
+            addTaskAdv( task );
             //if wait then skip try start loop
             if (!!task.skipAutoStart){ return; }
             triggerStartLoop();
@@ -363,36 +359,49 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
         }
 
         //--------------
-        //Delayed init adpaters
+        //Delayed init
         //--------------
-        function finishStackCalls(stack,fn){
+        function applyStackedCalls(stack){
             var calls = PRE_INIT_CALL_STACK[stack];
+            var currentCall;
             if (calls){
                 for (var i = 0; i < calls.length; i++ ) {
-                    fn.apply(this,calls[i]);
+                    currentCall = calls[i];
+                    currentCall.fn.apply(this,currentCall.args);
                 }
             }
             PRE_INIT_CALL_STACK[stack] = null;
         }
-        function finishAllCalls(){
-            finishStackCalls('addTask',addTask);
-            finishStackCalls('digest',digest);
+        function processCallStack(){
+            applyStackedCalls('addTask');
+            applyStackedCalls('addTaskAdv');
+            applyStackedCalls('digest');
         }
-        function adaptCalls(stack,fn,args){
+
+        //--------------
+        //Route Calls
+        //--------------
+        function routeCalls(stack,fn,args){
             if ( !LOOP_IS_READY ){
                 if (!PRE_INIT_CALL_STACK[stack]){
                     PRE_INIT_CALL_STACK[stack] = [];
                 }
-                PRE_INIT_CALL_STACK[stack].push(args);
+                PRE_INIT_CALL_STACK[stack].push({
+                    args: args,
+                    fn: fn
+                });
             } else {
                 fn.apply(this,args);
             }
         }
         function addTaskCallReceiver(){
-            adaptCalls('addTask',addTask, arguments);
+            routeCalls('addTask',addTask, arguments);
+        }
+        function addTaskAdvCallReceiver(){
+            routeCalls('addTaskAdv',addTaskAdv, arguments);
         }
         function digestCallReceiver(){
-            adaptCalls('digest',digest, arguments);
+            routeCalls('digest',digest, arguments);
         }
 
         //--------------
@@ -416,7 +425,7 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
 
             if (USE_FRAME_BUDGET_ESTIMATOR){
                 LOOP_IS_READY = false;
-                estimateFrameBudget();
+                autoDetectFrameBudget();
             }else{
                 LOOP_IS_READY = true;
             }
@@ -425,19 +434,24 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
         init(arguments);
 
         //declare public api
-
         self.addTask = addTaskCallReceiver;
         self.digest = digestCallReceiver;
 
         self.toggleDebug = toggleDebug;
         self.setFrameBudget = setFrameBudget;
 
+        //more advanced api
+        self.startLoop = startLoop;
         self.stopLoop = stopLoop;
+        self.stepper = stepper;
+        self.addTaskManaul = addTaskCallReceiver;
+        self.setRenderer = setRenderer;
+        self.guess = autoDetectFrameBudget;
 
         //return the reference of this object
         return this;
     }
 
-    window.FrameBudgetTaskManager = FrameBudgetMGR;
+    window.FrameBudgetTaskManager = FrameBudgetManager;
 })(this);
 
