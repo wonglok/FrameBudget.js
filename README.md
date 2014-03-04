@@ -7,7 +7,7 @@ You have about 1000/60 = 16.667ms Frame Budget.
 For mobile it could be 6~7 times slower.
 http://www.html5rocks.com/en/tutorials/speed/rendering/
 
-Sometimes user interatction events happen, you need to do work besies webgl/2dcanvas render calls, you can sometimes bust the framerate and create jank.
+Automatically estimate `Frame Budget` & Do async atomic task within frame budget.
 
 
 ### Example
@@ -15,10 +15,6 @@ http://wonglok.github.io/FrameBudget.js/frameBudgetEg.html
 
 ### Vanilla Annotated Source - Docs
 http://wonglok.github.io/FrameBudget.js/frameBudget.html
-
-It shows:
-
-- [v] the manager is able to adapt frame budget of different device.
 
 
 

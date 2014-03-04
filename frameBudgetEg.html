@@ -85,6 +85,7 @@
 
 		var myCustomObj = {
 		    data: [],
+		    count: 0,
 		    before: function(){
 
 		    },
@@ -96,8 +97,7 @@
 
 		        //console.log(result);
 		        this.bucket[i] = result;
-
-
+		       	console.log(i,result);
 		        this.finish();
 
 		    },
@@ -105,8 +105,6 @@
 		    	//check end
 		        if (this.bucket.length === this.data.length){
 		            this.callback();
-		        }else{
-		            console.log(this.data.length - this.bucket.length);
 		        }
 		    },
 		    bucket: [],
@@ -116,9 +114,10 @@
 		};
 
 		//populate data
-		for (var i =0 ; i< 30; i++){
-		    myCustomObj.data[i] = 28-i;
+		for (var i =0 ; i< 50; i++){
+		    myCustomObj.data[i] = Math.random()*10*2.5;
 		}
+		myCustomObj
 
 		function taskAdder(i, useCase){
 			if (useCase === 1){
@@ -150,7 +149,6 @@
 
 
 	</script>
-	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 	<style>
 		/*
 			Credit:;
@@ -191,6 +189,7 @@
 		  pre .atv, code .atv { color: #060 }
 		}
 	</style>
+	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 	<script type="text/javascript">
 		(function(){
 			var code = window.document.getElementById('mimivela');
