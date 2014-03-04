@@ -179,8 +179,18 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
         function toggleDebug(){
             DEBUG.ENABLED = !DEBUG.ENABLED;
         }
-        var frameStartLog = {};
-        var frameEndLog = {};
+        var frameStartLog = {
+            i:null,
+            frame:null,
+            renderer: null
+        };
+        var frameEndLog = {
+            i:null,
+            frame: null,
+            taskDone: null,
+            budget: null,
+            used: null
+        };
         var debugLimit = 100;
         function benchInit(){
             if (DEBUG_ENABLED && RAF_INDEX < debugLimit){
