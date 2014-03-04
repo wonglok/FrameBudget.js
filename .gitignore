@@ -20,12 +20,8 @@ results
 
 npm-debug.log
 
-docs/*
+docs/**/*.*
 
 .grunt
 
-docs
 
-docs/frameBudget.html
-
-docs/frameBudget.html
