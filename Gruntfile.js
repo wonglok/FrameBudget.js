@@ -44,14 +44,25 @@ module.exports = function (grunt) {
             }
         },
 
-
         // Watches files for changes and runs tasks based on the changed files
         watch: {
-            lib: {
-                files: ['frameBudget.js','frameBudgetEg.html'],
-                tasks: ['libBuild'],
+            libRealod: {
+                files: ['src/*frameBudget*.*', '!src/*frameBudget*min.js'],
                 options: {
                     livereload: true
+                }
+            },
+            lib: {
+                files: ['src/*frameBudget*.*', '!src/*frameBudget*min.js'],
+                tasks: ['libBuild'],
+                options: {
+                }
+            },
+            uglyLib: {
+                files: ['src/frameBudget.js'],
+                tasks: ['uglify:lib'],
+                options: {
+                //    livereload: true
                 }
             },
             js: {
@@ -98,6 +109,7 @@ module.exports = function (grunt) {
                     base: [
                     //    '.tmp',
                     //    '<%= yeoman.app %>'
+                        './src',
                         './docs'
                     ]
                 }
@@ -139,7 +151,7 @@ module.exports = function (grunt) {
 
         docco: {
             debug: {
-                src: ['frameBudget.js'],
+                src: ['src/frameBudget.js'],
                 options: {
                     output: 'docs/'
                 }
@@ -155,6 +167,8 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
+                'src/*.js',
+                '!src/*min.js',
                 '<%= yeoman.app %>/scripts/{,*/}*.js',
                 '!<%= yeoman.app %>/scripts/vendor/*',
                 'test/spec/{,*/}*.js'
@@ -323,12 +337,13 @@ module.exports = function (grunt) {
             lib:{
                 expand: true,
                 dot: true,
-                cwd:  '.',
+                cwd:  './src/',
                 dest: './docs',
                 src: [
-                    'frameBudgetEg.html',
-                    'frameBudget.js',
-                    'frameBudget.min.js'
+                    '*frameBudget*.*',
+                    // 'frameBudgetEg.html',
+                    // 'frameBudget.js',
+                    // 'frameBudget.min.js'
                 ]
             },
             styles: {
@@ -368,8 +383,8 @@ module.exports = function (grunt) {
                 'svgmin'
             ],
             lib:[
-                // 'connect:livereload',
-                // 'watch:lib'
+                'docco',
+                'uglify',
             ]
         },
 
@@ -377,27 +392,28 @@ module.exports = function (grunt) {
             options:{
                 preserveComments: 'some',
             },
-            frameJS: {
+            lib: {
                 files: {
-                    './frameBudget.min.js': [
-                        './frameBudget.js'
+                    './src/frameBudget.min.js': [
+                        './src/frameBudget.js'
                     ]
                 }
             }
         },
     });
 
+
     grunt.registerTask('libBuild', function (target) {
         grunt.task.run([
-            'clean:docs',
-            'uglify',
             'docco',
+            'uglify',
             'copy:lib',
         ]);
     });
 
     grunt.registerTask('publish', function (target) {
         grunt.task.run([
+            'clean:docs',
             'libBuild',
             'gh-pages'
         ]);
@@ -455,8 +471,9 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('default', [
-        'newer:jshint',
-        'test',
-        'build'
+        'serve'
+        // 'newer:jshint',
+        // 'test',
+        // 'build'
     ]);
 };
