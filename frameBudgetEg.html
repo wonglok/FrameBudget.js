@@ -91,18 +91,15 @@
 		    },
 		    tinyTask: function (i){
 		        this.before();
-
 		        var val = this.data[i];
 		        var result = fib(val);
 
-		        //console.log(result);
 		        this.bucket[i] = result;
-		       	console.log(i,result);
+		       	console.log(i,'fib', val, result);
+		    	//check end
 		        this.finish();
-
 		    },
 		    finish: function(){
-		    	//check end
 		        if (this.bucket.length === this.data.length){
 		            this.callback();
 		        }
@@ -113,11 +110,7 @@
 		    },
 		};
 
-		//populate data
-		var max = 28;
-	    for (var item = 0 ; item< 50; item++){
-	    	myCustomObj.data[item] = (item < max) ? item : max;
-		}
+
 
 		function taskAdder(i, useCase){
 			if (useCase === 1){
@@ -141,6 +134,11 @@
 
 		}
 
+		//populate data
+		var max = 28;
+	    for (var item = 0 ; item< 50; item++){
+	    	myCustomObj.data[item] = (item < max) ? item : max;
+		}
 		for (var i =0 ; i< myCustomObj.data.length; i++){
 		    taskAdder(i,2);
 		}
