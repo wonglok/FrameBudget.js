@@ -6,12 +6,19 @@
 <body>
 	Cmd+alt+i to open console on Mac Chrome, and refresh
 	<br>
+	<div id="dummy"></div>
 	<a href="./frameBudget.html">Docs</a>
 	<pre id="dochevita" class="prettyprint"></pre>
 	<script id="mimivela">
 
 		var renderCtx = this;
+		var i;
+		var target = document.getElementById('dummy');
+		target.style.webkitPerspective = '500px';
 		function render(){
+			target.innerText = i;
+			target.style.webkitTransform = 'translateZ(0) rotateX('+i+'deg)';
+			i++;
 			// console.log('darw frame');
 		}
 
@@ -83,6 +90,7 @@
 		  return n < 2 ? 1 : fib(n - 1) + fib(n - 2);
 		}
 
+
 		var myCustomObj = {
 		    data: [],
 		    count: 0,
@@ -93,6 +101,7 @@
 		        this.before();
 		        var val = this.data[i];
 		        var result = fib(val);
+
 
 		        this.bucket[i] = result;
 		       	console.log(i,'fib', val, result);
@@ -136,7 +145,7 @@
 
 		//populate data
 		var max = 28;
-	    for (var item = 0 ; item< 50; item++){
+	    for (var item = 0 ; item< 500; item++){
 	    	myCustomObj.data[item] = (item < max) ? item : max;
 		}
 		for (var i =0 ; i< myCustomObj.data.length; i++){

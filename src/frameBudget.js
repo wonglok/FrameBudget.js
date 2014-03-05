@@ -66,10 +66,10 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
             FRAME_BUDGET_DEFAULT = 5,
             FRAME_BUDGET = FRAME_BUDGET_DEFAULT,
             //each time `2` `FRAME_BUDGET_SAMPLE_AMOUNT` will be used to get rid of th max, and min error val
-            FRAME_BUDGET_SAMPLE_FILTER_PASS = 5,
-            FRAME_BUDGET_SAMPLE_AMOUNT = 5 + FRAME_BUDGET_SAMPLE_FILTER_PASS*2,
+            FRAME_BUDGET_SAMPLE_FILTER_PASS = 3,
+            FRAME_BUDGET_SAMPLE_AMOUNT = 10 + FRAME_BUDGET_SAMPLE_FILTER_PASS*2, //each pass get rid of one max one min
             //`FRAME_BUDGET_TIGHTEN_FACTOR`is only valid  when using estimator
-            FRAME_BUDGET_TIGHTEN_FACTOR = 0.75,
+            FRAME_BUDGET_TIGHTEN_FACTOR = 0.5,
 
             //`LOOP_IS_READY` will become true after the budget estimation.
             LOOP_IS_READY = false,
@@ -84,7 +84,6 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
 
 
 
-        //Is only callable when not using estimator
         function setFrameBudget(timeLimit){
             if (timeLimit){
                 if (USE_FRAME_BUDGET_ESTIMATOR){
@@ -92,7 +91,7 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
                 }else{
                     if (timeLimit > 1000/60){
                         console.warn('***** You are might be specifying too much frame budget: ' +timeLimit+ 'ms');
-                        timeLimit = 1000/60;
+                        timeLimit = 1000/60 * FRAME_BUDGET_TIGHTEN_FACTOR;
                     }
                     FRAME_BUDGET = timeLimit;
                 }
@@ -103,9 +102,8 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
         //Frame Budget Estimation
         //--------------
         function autoDetectFrameBudget(){
-            var start,
-                end,
-                samples = [],//Statistics Samples
+            var startTime,
+                samples = [],
                 estimatedResult;
 
             function calcAvg(array){
@@ -144,7 +142,7 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
             }
 
             function takeSingleFrameBudgetSample(){
-                samples.push(window.performance.now() - start);
+                samples.push(window.performance.now() - startTime);
                 //take more if not enough
                 if (samples.length <= FRAME_BUDGET_SAMPLE_AMOUNT){
                     requestAnimationFrame(takeSamples);
@@ -156,7 +154,7 @@ if(!Array.prototype.filter){Array.prototype.filter=function(e){"use strict";if(t
             }
 
             function takeSamples(){
-                start = window.performance.now();
+                startTime = window.performance.now();
                 requestAnimationFrame(takeSingleFrameBudgetSample);
             }
 
