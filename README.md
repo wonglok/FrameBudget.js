@@ -1,5 +1,12 @@
 FrameBudget.js
 ==============
+Kudos:
+
+https://www.youtube.com/watch?v=QVvHtWePQdA
+https://github.com/donny-dont
+
+//--------------
+
 To have smooth desktop webexperince.
 
 You have about 1000/60 = 16.667ms Frame Budget.
@@ -153,6 +160,7 @@ for (var i =0 ; i< 30; i++){
 7. Change mode back to simple mode after estimation with a new estimated frame budget.
 8. receive AddTask calls -> trigger startLoop ....
 9. Same as Simple Mode....
+
 
 
 
