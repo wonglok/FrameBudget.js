@@ -167,4 +167,5 @@ for (var i =0 ; i< 30; i++){
 
 
 # ToDo:
--  Rewrite into testable code when this paradigm is acutally usfeul.
+- Rewrite into testable code 
+- Write WebGL Demo, cross domain image -> canvas -> webgl textrue
