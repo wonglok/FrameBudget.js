@@ -28,7 +28,7 @@ module.exports = function (grunt) {
         },
 
 
-
+        //grunt.loadNpmTasks('grunt-gh-pages');
         'gh-pages': {
             dist:{
                 //http://wonglok.github.io/FrameBudget.js/
@@ -43,6 +43,38 @@ module.exports = function (grunt) {
                 src: ['**']
             }
         },
+
+        /*
+
+        //grunt.loadNpmTasks('grunt-gh-pages');
+        'gh-pages': {
+            dist:{
+                //http://wonglok.github.io/FrameBudget.js/
+                options: {
+                    user: {
+                        name: 'Wong Lok',
+                        email: 'wonglok@wonglok.com'
+                    },
+                    repo: 'git@github.com:wonglok/FrameBudget.js.git',
+                    base: 'docs'
+                },
+                src: ['**']
+            }
+        },
+
+        //grunt.loadNpmTasks('grunt-docco');
+        docco: {
+            debug: {
+                src: ['src/frameBudget.js'],
+                options: {
+                    output: 'docs/'
+                }
+            }
+        },
+
+        */
+
+
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {
